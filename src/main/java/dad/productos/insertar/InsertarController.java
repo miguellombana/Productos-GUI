@@ -4,12 +4,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.mysql.cj.conf.StringProperty;
+
+import aed.hibernate.Familia;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -19,6 +28,14 @@ public class InsertarController implements Initializable {
 	
 	
 	private EventHandler<ActionEvent> onBack;
+	
+	
+	private BooleanProperty vongelado = new SimpleBooleanProperty();
+	private SimpleStringProperty deno = new SimpleStringProperty();
+	private ObjectProperty<Familia> familia = new SimpleObjectProperty<>();
+	private SimpleStringProperty observacion = new SimpleStringProperty();
+	private DoubleProperty precio = new SimpleDoubleProperty();
+	
 	
 	// view
 	

@@ -37,6 +37,13 @@
 			<artifactId>ikonli-bootstrapicons-pack</artifactId>
 			<version>12.3.1</version>
 		</dependency>
+
+		<dependency>
+	<groupId>aed</groupId>
+	<artifactId>Hibernate</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 
 </project>
