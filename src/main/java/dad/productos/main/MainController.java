@@ -18,7 +18,7 @@ public class MainController implements Initializable {
 	
 	private MenuController menuController;
 	private InsertarController insertarController;	
-	private ProductosController productosController;
+	private ProductosController productosController;	
 	
 	// view
 	
@@ -42,36 +42,23 @@ public class MainController implements Initializable {
 		
 		menuController = new MenuController();
 		menuController.setOnAdd(e -> {
-			
 			view.setCenter(insertarController.getView());
-			
 		});
-		
 		menuController.setOnListProducts(e -> {
-			
+			productosController.reload();
 			view.setCenter(productosController.getView());
-			
 		});
 		
-		
+		productosController = new ProductosController();
+		productosController.setOnBack(e -> {
+			view.setCenter(menuController.getView());
+		});
 		
 		insertarController = new InsertarController();
 		insertarController.setOnBack(e -> {
-			
 			view.setCenter(menuController.getView());
 		});
 
-		productosController = new ProductosController();
-		
-		productosController.setOnBack(e -> {
-			
-			view.setCenter(menuController.getView());
-			
-		});
-		
-		
-		
-		
 		// inicialmnte mostramos la vista del menú
 		
 		view.setCenter(menuController.getView());

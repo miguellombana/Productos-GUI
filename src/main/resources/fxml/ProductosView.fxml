@@ -8,12 +8,12 @@
 <?import javafx.scene.layout.HBox?>
 
 
-<BorderPane fx:id="view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="view" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19">
    <center>
-      <TableView fx:id="productsTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="productsTable" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="codigoColumn" prefWidth="75.0" text="Codigo" />
-          <TableColumn fx:id="denoColumn" prefWidth="75.0" text="Denominacion" />
+          <TableColumn fx:id="codigoColumn" prefWidth="75.0" text="Código" />
+          <TableColumn fx:id="denoColumn" prefWidth="75.0" text="Denominación" />
             <TableColumn fx:id="precioColumn" prefWidth="75.0" text="Precio" />
             <TableColumn fx:id="congeladoColumn" prefWidth="75.0" text="¿Congelado?" />
             <TableColumn fx:id="observaColumn" prefWidth="75.0" text="Observaciones" />
@@ -27,7 +27,7 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#onBack" text="Volver" />
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBack" text="Volver" />
          </children>
          <padding>
             <Insets top="5.0" />

@@ -9,18 +9,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 public class MenuController implements Initializable {
 	
 	// actions
 	
-	private EventHandler<ActionEvent> onAddProduct;
-	private EventHandler<ActionEvent> onDeleteProduct;
-	private EventHandler<ActionEvent> onModifyProduct;
+	private EventHandler<ActionEvent> onAdd;
+	private EventHandler<ActionEvent> onDelete;
+	private EventHandler<ActionEvent> onModify;
 	private EventHandler<ActionEvent> onListProducts;
-	private EventHandler<ActionEvent> onShowStockProduct;
+	private EventHandler<ActionEvent> onShowStock;
 	
 	// view
 	
@@ -39,7 +38,7 @@ public class MenuController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub		
+		// do nothing
 	}
 	
 	public VBox getView() {
@@ -49,46 +48,43 @@ public class MenuController implements Initializable {
 	@FXML
     void onAddProduct(ActionEvent event) {
     	System.out.println("ir a añadir producto");
-    	if (onAddProduct != null) {
-    		onAddProduct.handle(event);
-    	}
+    	onAdd.handle(event);
     }
 
     @FXML
     void onDeleteProduct(ActionEvent event) {
     	System.out.println("ir a eliminar producto");
-    	if(onDeleteProduct != null) onDeleteProduct.handle(event);;
+    	onDelete.handle(event);
     }
 
     @FXML
     void onListProducts(ActionEvent event) {
     	System.out.println("ir a listar productos");
-    	if(onListProducts != null) onListProducts.handle(event);;
+    	onListProducts.handle(event);
     }
 
     @FXML
     void onModifyProduct(ActionEvent event) {
     	System.out.println("ir a modificar producto");
-    	if(onModifyProduct != null) onModifyProduct.handle(event);;
+    	onModify.handle(event);
     }
 
     @FXML
     void onShowStock(ActionEvent event) {
     	System.out.println("ir a mostrar stock");
-    	if(onShowStockProduct != null) onShowStockProduct.handle(event);;
-    	
+    	onShowStock.handle(event);    	
     }
     
     public void setOnAdd(EventHandler<ActionEvent> onInsertar) {
-		this.onAddProduct = onInsertar;
+		this.onAdd = onInsertar;
 	}    
 
     public void setOnDelete(EventHandler<ActionEvent> onDelete) {
-		this.onDeleteProduct = onDelete;
+		this.onDelete = onDelete;
 	}
 
 	public void setOnModify(EventHandler<ActionEvent> onModify) {
-		this.onModifyProduct = onModify;
+		this.onModify = onModify;
 	}
 
 	public void setOnListProducts(EventHandler<ActionEvent> onListProducts) {
@@ -96,7 +92,7 @@ public class MenuController implements Initializable {
 	}
 
 	public void setOnShowStock(EventHandler<ActionEvent> onShowStock) {
-		this.onShowStockProduct = onShowStock;
+		this.onShowStock = onShowStock;
 	}
 	
 }

@@ -4,9 +4,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.mysql.cj.conf.StringProperty;
+import org.hibernate.Session;
 
 import aed.hibernate.Familia;
+import aed.hibernate.HibernateUtil;
+import aed.hibernate.Producto;
+import aed.hibernate.ProductoObservacion;
+import aed.productos.dao.FamiliaDAO;
+import aed.productos.dao.ObservacionDAO;
+import aed.productos.dao.ProductoDAO;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -14,6 +21,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,19 +31,21 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.util.converter.NumberStringConverter;
 
 public class InsertarController implements Initializable {
 	
+	// actions
 	
 	private EventHandler<ActionEvent> onBack;
 	
+	// model
 	
-	private BooleanProperty vongelado = new SimpleBooleanProperty();
-	private SimpleStringProperty deno = new SimpleStringProperty();
+	private BooleanProperty congelado = new SimpleBooleanProperty();
+	private StringProperty deno = new SimpleStringProperty();
 	private ObjectProperty<Familia> familia = new SimpleObjectProperty<>();
-	private SimpleStringProperty observacion = new SimpleStringProperty();
-	private DoubleProperty precio = new SimpleDoubleProperty();
-	
+	private StringProperty observacion = new SimpleStringProperty();
+	private DoubleProperty precio = new SimpleDoubleProperty();	
 	
 	// view
 	
@@ -46,7 +56,7 @@ public class InsertarController implements Initializable {
     private TextField denoText;
 
     @FXML
-    private ComboBox<?> familiaCombo;
+    private ComboBox<Familia> familiaCombo;
 
     @FXML
     private TextField observacionText;
@@ -56,8 +66,6 @@ public class InsertarController implements Initializable {
 
     @FXML
     private BorderPane view;
-    
-
 	
 	public InsertarController() {
 		try { 
@@ -71,7 +79,19 @@ public class InsertarController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO inicializar el controlador
+
+		// bindings
+		
+		congelado.bind(congeladoCheck.selectedProperty());
+		deno.bind(denoText.textProperty());
+		familia.bind(familiaCombo.getSelectionModel().selectedItemProperty());
+		observacion.bind(observacionText.textProperty());
+		Bindings.bindBidirectional(precioText.textProperty(), precio, new NumberStringConverter());		
+		
+		// cargar el combo de familias
+		
+		familiaCombo.getItems().setAll(FamiliaDAO.getFamilias());
+		
 	}
 	
 	public BorderPane getView() {
@@ -80,19 +100,25 @@ public class InsertarController implements Initializable {
 
     @FXML
     void onCancelar(ActionEvent event) {
-    	System.out.println("Cancelar");
-    	if (onBack != null) onBack.handle(event);
-    
+    	System.out.println("cancelar");
+    	onBack.handle(event);
     }
 
     @FXML
     void onGuardar(ActionEvent event) {
-    	System.out.println("Guardar");
-    	if (onBack != null)  onBack.handle(event);
-    
+    	
+    	Session sesion = HibernateUtil.getSessionFactory().openSession(); // crea la sesion
+    	Familia frutas = FamiliaDAO.addFamilia("frutas", sesion);
+    	Familia familiaSeleccionada = familiaCombo.getValue();	
+		Producto producto = ProductoDAO.addProducto(deno.get(),precio.get(), familiaSeleccionada , congeladoCheck.selectedProperty().get(),sesion);
+		ObservacionDAO.addObservacion(producto, observacion.get(), sesion);
+    	
+    	onBack.handle(event);
+    	
     }
-
-	public void setOnBack(EventHandler<ActionEvent> onBack) {
-		this.onBack =  onBack;		
+    
+    public void setOnBack(EventHandler<ActionEvent> onBack) {
+		this.onBack = onBack;
 	}
+
 }
