@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.hibernate.Session;
+import org.hibernate.mapping.Set;
 
 import aed.hibernate.Familia;
 import aed.hibernate.HibernateUtil;
@@ -47,7 +48,7 @@ public class InsertarController implements Initializable {
 	private StringProperty observacion = new SimpleStringProperty();
 	private DoubleProperty precio = new SimpleDoubleProperty();	
 	
-	// view
+	// view 
 	
     @FXML
     private CheckBox congeladoCheck;
@@ -83,7 +84,7 @@ public class InsertarController implements Initializable {
 		// bindings
 		
 		congelado.bind(congeladoCheck.selectedProperty());
-		deno.bind(denoText.textProperty());
+		deno.bind(denoText.textProperty());	
 		familia.bind(familiaCombo.getSelectionModel().selectedItemProperty());
 		observacion.bind(observacionText.textProperty());
 		Bindings.bindBidirectional(precioText.textProperty(), precio, new NumberStringConverter());		
@@ -91,6 +92,12 @@ public class InsertarController implements Initializable {
 		// cargar el combo de familias
 		
 		familiaCombo.getItems().setAll(FamiliaDAO.getFamilias());
+		
+	    
+	    // Establecer la familia por defecto (por ejemplo, la primera de la lista)
+	    if (!familiaCombo.getItems().isEmpty()) {
+	        familiaCombo.setValue(familiaCombo.getItems().get(0));
+	    }
 		
 	}
 	
@@ -107,13 +114,33 @@ public class InsertarController implements Initializable {
     @FXML
     void onGuardar(ActionEvent event) {
     	
+	if(deno.get().isEmpty() || precio.get() == 0) {
+		
+		System.out.println("No se puede insertar xq etsa vacio");
+		
+	}else {
+		
+		
+    	
     	Session sesion = HibernateUtil.getSessionFactory().openSession(); // crea la sesion
     	Familia frutas = FamiliaDAO.addFamilia("frutas", sesion);
     	Familia familiaSeleccionada = familiaCombo.getValue();	
 		Producto producto = ProductoDAO.addProducto(deno.get(),precio.get(), familiaSeleccionada , congeladoCheck.selectedProperty().get(),sesion);
 		ObservacionDAO.addObservacion(producto, observacion.get(), sesion);
     	
-    	onBack.handle(event);
+		//Volvemos a poner valores por defecto una vez añadido el producto
+        denoText.clear();;
+        precioText.clear();;
+        observacionText.clear();
+        congeladoCheck.setSelected(false);
+        familiaCombo.setValue(familiaCombo.getItems().get(0));
+	onBack.handle(event);
+    	
+
+	}
+    	
+    	
+
     	
     }
     

@@ -32,9 +32,8 @@ public class ProductosController implements Initializable {
 	// actions
 	
 	private EventHandler<ActionEvent> onBack;
-	
+	 
 	// model
-	
 	private ListProperty<Producto> productos = new SimpleListProperty<>(FXCollections.observableArrayList());
 	
 	// view
@@ -52,7 +51,7 @@ public class ProductosController implements Initializable {
     private TableColumn<Producto, Familia> familiaColumn;
 
     @FXML
-    private TableColumn<Producto, String > observaColumn;
+    private TableColumn<Producto, ProductoObservacion > observaColumn;
 
     @FXML
     private TableColumn<Producto, Number> precioColumn;
@@ -83,9 +82,8 @@ public class ProductosController implements Initializable {
 		denoColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getDenoProducto()));
 		familiaColumn.setCellValueFactory(c -> new SimpleObjectProperty<Familia>(c.getValue().getcodFamilia()));
 		precioColumn.setCellValueFactory(c -> new SimpleDoubleProperty(c.getValue().getPrecioBase()));
-	//	observaColumn.setCellValueFactory(c -> new SimpleObjectProperty<ProductoObservacion>(c.getValue().getDenoProducto()));
-		
-		
+		observaColumn.setCellValueFactory(c -> new SimpleObjectProperty<ProductoObservacion>(c.getValue().obtenerObservacion()));
+
 		
 		
 		// configura como se presentan los datos de las columnas (cell factories)
@@ -95,6 +93,15 @@ public class ProductosController implements Initializable {
 		// bindings
 		
 		productsTable.itemsProperty().bind(productos);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	}
 
