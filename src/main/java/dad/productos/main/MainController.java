@@ -39,7 +39,7 @@ public class MainController implements Initializable {
 			loader.load();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}
+		} 
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class MainController implements Initializable {
 		});
 		
 		menuController.setOnShowStock(e -> {
-		//	stockController.reload();
+			stockController.reload();
 			view.setCenter(stockController.getView());
 		});
 		

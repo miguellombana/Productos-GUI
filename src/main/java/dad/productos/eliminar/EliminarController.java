@@ -2,6 +2,7 @@ package dad.productos.eliminar;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.hibernate.Session;
@@ -24,9 +25,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.util.converter.NumberStringConverter;
 
@@ -128,7 +132,7 @@ public class EliminarController implements Initializable {
 		  
 		  
 		
-	}
+	} 
 
 	public BorderPane getView() {
 		return view;
@@ -145,34 +149,50 @@ public class EliminarController implements Initializable {
     
     @FXML
     void onDelete(ActionEvent event) {
-    	
-    	
-    	if(confirmacion.isSelected()) { //Solo Elimina La observacion del Producto
-    		
-    		System.out.println("Solo elimina la observacion");
-    		Session sesion = HibernateUtil.getSessionFactory().openSession();
-    		ObservacionDAO.eliminarObservacionProducto(codEliminarProperty.get(), sesion);
-    		
-    		
-    		
-    		
-    	}else { //Elimina Todo el producto
-    		
-    		
-        	Session sesion = HibernateUtil.getSessionFactory().openSession();
-        	System.out.println("El codigo de producto a elimar es: " + codEliminarProperty.get());
-        	ObservacionDAO.eliminarObservacionProducto(codEliminarProperty.get(), sesion);
-        	StockDAO.eliminarStock(codEliminarProperty.get(), sesion);
-        	ProductoDAO.deleteProducto(codEliminarProperty.get(), sesion);
-    		
-    		
-    	}
-    	
+        // Mostrar una alerta de confirmación antes de eliminar
+        Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirmación de Eliminación");
+        confirmAlert.setHeaderText(null);
+        confirmAlert.setContentText("¿Estás seguro de que quieres eliminar este producto o observacion?");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (confirmacion.isSelected()) {
+                // Solo elimina la observación del Producto
+                System.out.println("Solo elimina la observación");
+                Session sesion = HibernateUtil.getSessionFactory().openSession();
+                ObservacionDAO.eliminarObservacionProducto(codEliminarProperty.get(), sesion);
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Observación Eliminada");
+                alert.setHeaderText(null);
+                alert.setContentText("Observación Eliminada Correctamente");
+                alert.showAndWait();
+            } else {
+                // Elimina todo el producto
+                Session sesion = HibernateUtil.getSessionFactory().openSession();
+                System.out.println("El código de producto a eliminar es: " + codEliminarProperty.get());
+                ObservacionDAO.eliminarObservacionProducto(codEliminarProperty.get(), sesion);
+                StockDAO.eliminarStock(codEliminarProperty.get(), sesion);
+                ProductoDAO.deleteProducto(codEliminarProperty.get(), sesion);
+                codEliminar.setText(null);
+
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Eliminado");
+                alert.setHeaderText(null);
+                alert.setContentText("Producto Eliminado Correctamente");
+                alert.showAndWait();
+            }
+        } else {
+            // El usuario seleccionó Cancelar en la alerta de confirmación
+            System.out.println("Eliminación cancelada por el usuario.");
+        }
+    }
     	
 
 
     	
-    } 
+     
 
     @FXML
     void onShowProduct(ActionEvent event) {
@@ -182,12 +202,23 @@ public class EliminarController implements Initializable {
     	
     	if(producto == null) {
     		
+    		
     		System.out.println("Es nulo");
         	familiaProducto.setText("");
         	precioProducto.setText("");
         	denoProducto.setText("");
         	congelado.setSelected(false);
         	this.observacion.setText("");
+    		
+    	    Alert alert = new Alert(AlertType.WARNING);
+    	    alert.setTitle("Error");
+    	    alert.setHeaderText(null);
+    	    alert.setContentText("El codigo introducido no corresponde a ningun producto");
+    	    alert.showAndWait();
+    		
+    		
+    		
+
     		
     		
     	}else {

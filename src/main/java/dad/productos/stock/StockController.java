@@ -35,37 +35,39 @@ public class StockController implements Initializable {
 
 	//model 
 	
-	private ListProperty<Object[]> productos = new SimpleListProperty<>(FXCollections.observableArrayList());
-	
+	private ListProperty<Stock> stocks = new SimpleListProperty<>(FXCollections.observableArrayList());
+	private ListProperty<Producto> productos = new SimpleListProperty<>(FXCollections.observableArrayList());
 	
 	
     // view
     @FXML
-    private TableColumn<Object[], Number> Unidades;
+    private TableColumn<Stock, Number> Unidades;
 
     @FXML
     private Button backButton;
 
     @FXML
-    private TableColumn<Object[], Familia> codFamilia;
+    private TableColumn<Stock, Familia> codFamilia;
 
     @FXML
-    private TableColumn<Object[], Number> codTienda;
+    private TableColumn<Stock, Number> codTienda;
 
     @FXML
-    private TableColumn<Object[], Number> codigoProducto;
+    private TableColumn<Stock, Number> codigoProducto;
 
     @FXML
-    private TableColumn<Object[], String> denoFamilia;
+    private TableColumn<Stock, String> denoFamilia;
 
     @FXML
-    private TableColumn<Object[], String> denoProducto;
+    private TableColumn<Producto, String> denoProducto;
 
     @FXML
-    private TableColumn<Object[], String> denoTienda;
+    private TableColumn<Stock, String> denoTienda;
 
     @FXML
-    private TableColumn<Object[], String> observaciones;
+    private TableColumn<Stock, String> observaciones;  
+    @FXML
+    private TableView<Stock> productsTable;
 
     @FXML
     private BorderPane view;
@@ -91,31 +93,22 @@ public class StockController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-	    codigoProducto.setCellValueFactory(c -> new SimpleIntegerProperty(((Number) c.getValue()[0]).intValue()));
-	    denoProducto.setCellValueFactory(c -> new SimpleStringProperty((String) c.getValue()[1]));
-	    codFamilia.setCellValueFactory(c -> new SimpleObjectProperty<>((Familia) c.getValue()[2]));
-	    // Asegúrate de adaptar los tipos de datos y las celdas según la estructura real de tus datos
+			  codigoProducto.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getCodProducto().getCodProducto()));
+			  codTienda.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getCodTienda().getCodTienda()));
+			  Unidades.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getUnidades()));
 
-	    codTienda.setCellValueFactory(c -> new SimpleIntegerProperty(((Number) c.getValue()[3]).intValue()));
-	    denoFamilia.setCellValueFactory(c -> new SimpleStringProperty((String) c.getValue()[4]));
-	    denoTienda.setCellValueFactory(c -> new SimpleStringProperty((String) c.getValue()[5]));
-	    observaciones.setCellValueFactory(c -> new SimpleStringProperty((String) c.getValue()[6]));
 
-	    // Configura las celdas según tus necesidades, por ejemplo:
-	    Unidades.setCellValueFactory(c -> new SimpleIntegerProperty(((Number) c.getValue()[7]).intValue()));
-
-	 
-		
-
+		    productsTable.itemsProperty().bind(stocks);
 	} 
-	
+	 
 	
 	public void reload() {
-		productos.setAll(StockDAO.getStocks());
+	 	 stocks.setAll(StockDAO.getStocks());
+
 	}
 	
-	
-	public BorderPane getView() {
+ 	
+	 public BorderPane getView() {
 		return view;
 	}
 	

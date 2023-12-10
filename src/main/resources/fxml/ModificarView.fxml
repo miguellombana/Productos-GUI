@@ -16,7 +16,7 @@
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
    <top>
-      <GridPane BorderPane.alignment="CENTER">
+      <GridPane BorderPane.alignment="CENTER_RIGHT">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -42,10 +42,10 @@
             <CheckBox fx:id="congelado" alignment="CENTER" disable="false" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
             <Label text="Introducir Codigo del Producto a Eliminar" GridPane.columnSpan="2" />
             <TextField fx:id="codEliminar" GridPane.columnIndex="2" />
-            <Button fx:id="buttonVizualizar" mnemonicParsing="false" onAction="#onShowProduct" text="Vizualizar Datos del producto" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="RIGHT" />
+            <Button fx:id="buttonVizualizar" mnemonicParsing="false" onAction="#onShowProduct" text="Visualizar Datos del producto" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="RIGHT" />
             <Button fx:id="buttonGuardar" mnemonicParsing="false" onAction="#onGuardar" text="Guardar" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
             <Button fx:id="buttonVolver" mnemonicParsing="false" onAction="#onBack" text="Volver" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-            <ComboBox fx:id="familiaProducto" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <ComboBox fx:id="familiaProducto" prefWidth="2000.0" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </top>

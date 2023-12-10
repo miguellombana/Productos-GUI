@@ -29,10 +29,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.util.converter.NumberStringConverter;
 
@@ -106,7 +108,7 @@ public class ModificarController implements Initializable {
 	}
 	
 	
-
+ 
 
 
 	
@@ -162,7 +164,28 @@ public class ModificarController implements Initializable {
     	
         Session sesion = HibernateUtil.getSessionFactory().openSession();
 
-                ProductoDAO.modificarProducto(codEliminarProperty.get(), denoProducto.getText(), Double.parseDouble(precioProducto.getText()), congelado.isSelected(), familiaProductoProperty.get(), observacion.getText(), sesion);
+            if (ProductoDAO.modificarProducto(codEliminarProperty.get(), denoProducto.getText(), Double.parseDouble(precioProducto.getText()), congelado.isSelected(),
+            		familiaProductoProperty.get(), observacion.getText(), sesion) == 1) {
+
+                
+        	    Alert alert = new Alert(AlertType.INFORMATION);
+        	    alert.setTitle("Modificado");
+        	    alert.setHeaderText(null);
+        	    alert.setContentText("Producto Modificado Correctamente");
+        	    alert.showAndWait();
+        		
+                
+onBack(event);}else {
+	
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("Modificado");
+    alert.setHeaderText(null);
+    alert.setContentText("Producto No encontrado");
+    alert.showAndWait();
+	
+	
+	
+}
 
 
         
@@ -177,11 +200,20 @@ public class ModificarController implements Initializable {
 
             if (producto == null) {
                 System.out.println("Es nulo");
-                precioProducto.setText("");
+                precioProducto.setText("0");
                 denoProducto.setText("");
                 congelado.setSelected(false);
                 this.observacion.setText("");
                 familiaProducto.setValue(familiaProducto.getItems().get(0));
+                
+        	    Alert alert = new Alert(AlertType.WARNING);
+        	    alert.setTitle("Error");
+        	    alert.setHeaderText(null);
+        	    alert.setContentText("El codigo introducido no corresponde a ningun producto");
+        	    alert.showAndWait();
+        		
+        		
+                
             } else {
                 Familia familia = FamiliaDAO.obtenerFamiliaPorIdProducto(producto.getCodProducto(), sesion);
 

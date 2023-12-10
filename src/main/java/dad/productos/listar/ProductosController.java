@@ -40,7 +40,7 @@ public class ProductosController implements Initializable {
 
     @FXML
     private TableColumn<Producto, Number> codigoColumn;
-
+ 
     @FXML
     private TableColumn<Producto, Boolean> congeladoColumn;
 

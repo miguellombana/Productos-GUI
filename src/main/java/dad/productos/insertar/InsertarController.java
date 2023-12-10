@@ -28,6 +28,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -55,7 +57,7 @@ public class InsertarController implements Initializable {
 
     @FXML
     private TextField denoText;
-
+ 
     @FXML
     private ComboBox<Familia> familiaCombo;
 
@@ -116,7 +118,12 @@ public class InsertarController implements Initializable {
     	
 	if(deno.get().isEmpty() || precio.get() == 0) {
 		
-		System.out.println("No se puede insertar xq etsa vacio");
+	    Alert alert = new Alert(AlertType.WARNING);
+	    alert.setTitle("Error En la insercion");
+	    alert.setHeaderText(null);
+	    alert.setContentText("No se puede insertar un producto vacío.");
+	    alert.showAndWait();
+
 		
 	}else {
 		
@@ -127,6 +134,18 @@ public class InsertarController implements Initializable {
     	Familia familiaSeleccionada = familiaCombo.getValue();	
 		Producto producto = ProductoDAO.addProducto(deno.get(),precio.get(), familiaSeleccionada , congeladoCheck.selectedProperty().get(),sesion);
 		ObservacionDAO.addObservacion(producto, observacion.get(), sesion);
+		
+		
+		
+	    Alert alert = new Alert(AlertType.INFORMATION);
+	    alert.setTitle("Inserción de producto");
+	    alert.setHeaderText(null);
+	    alert.setContentText("Producto insertado correctamente");
+	    alert.showAndWait();
+
+		
+		
+		
     	
 		//Volvemos a poner valores por defecto una vez añadido el producto
         denoText.clear();;

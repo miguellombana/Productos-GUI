@@ -9,7 +9,7 @@
 
 <BorderPane fx:id="view" minWidth="1000.0" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <TableView BorderPane.alignment="CENTER">
+      <TableView fx:id="productsTable" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="codigoProducto" prefWidth="75.0" text="Código Producto" />
           <TableColumn fx:id="denoProducto" prefWidth="75.0" text="Denominación" />
